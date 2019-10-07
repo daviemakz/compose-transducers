@@ -96,9 +96,11 @@ console.log(output)
 
 ## Description
 
-Often, when we process data, it’s useful to break up the processing into multiple independent, composable stages. For example, it’s very common to select some data from a larger set, and then process that data (map / filter). You may be tempted to do something like this:
+Often, when we process data, it’s useful to break up the processing into multiple independent, composable stages. For example, it’s very common to select some data from a larger set, and then process that data (map / filter).
 
 ### Problem
+
+You may be tempted to do something like this:
 
 ```
 // Define example 'input'
