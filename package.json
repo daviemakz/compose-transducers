@@ -1,0 +1,26 @@
+{
+  "name": "compose-transducers",
+  "version": "1.0.0",
+  "description": "This package combines functional composition and transducers to allow high performance operations from arrays and minimal garbage collection.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daviemakz/compose-transducers.git"
+  },
+  "keywords": [
+    "functional",
+    "programming",
+    "function",
+    "composition",
+    "transducers"
+  ],
+  "author": "David Makuni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daviemakz/compose-transducers/issues"
+  },
+  "homepage": "https://github.com/daviemakz/compose-transducers#readme"
+}
