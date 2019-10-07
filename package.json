@@ -45,7 +45,14 @@
 		"programming",
 		"function",
 		"composition",
-		"transducers"
+		"transducers",
+		"data",
+		"efficient",
+		"fast",
+		"garbage",
+		"collection",
+		"map",
+		"filter"
 	],
 	"author": "David Makuni",
 	"license": "MIT",
