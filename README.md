@@ -48,10 +48,10 @@ const input = [1,2,3,4,5]
 // Build operation list
 const operationList = [{
   type:'map',
-  funcs: [addTwo, multiplyByTen, divideByThree]
+  funcs: [addTwo, multiplyByTen, divideByThree] // Array of "map" functions
 }, {
   type: 'filter',
-  funcs:[filterLessThanTen, filterLessThanOFourteen]
+  funcs:[filterLessThanTen, filterLessThanOFourteen] // Array of "filter" functions
 }]
 
 // Build a transducer to use & reuse later
@@ -63,6 +63,8 @@ const output = composedTransducer(input)
 // Show output
 console.log(output)
 ```
+
+**NOTE: You can have the map functions taking more than one parameter as long as your functions return the same number of parameters** 
 
 ### reduce
 
