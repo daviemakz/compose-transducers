@@ -29,9 +29,76 @@ NPM:
 npm install compose-transducers --save
 ```
 
-## Summary
+
+## Usage
+
+We support map, filter and reduce. Example are below:
+
+### map/filter
+
+The example using map & filter at the same time:
+
+```
+// Import package
+import { composeTransducer } from 'compose-transducers'
+
+// Define example 'input'
+const input = [1,2,3,4,5]
+
+// Build operation list
+const operationList = [{
+  type:'map',
+  funcs: [addTwo, multiplyByTen, divideByThree]
+}, {
+  type: 'filter',
+  funcs:[filterLessThanTen, filterLessThanOFourteen]
+}]
+
+// Build a transducer to use & reuse later
+const composedTransducer = composeTransducer(operationList)
+
+// Get the output
+const output = composedTransducer(input)
+
+// Show output
+console.log(output)
+```
+
+### reduce
+
+The above example but with a reduce to add all the numbers in the array:
+
+```
+// Import package
+import { composeTransducer } from 'compose-transducers'
+
+// Define example 'input'
+const input = [1,2,3,4,5]
+
+// Build operation list
+const operationList = [{
+  type:'map',
+  funcs: [addTwo, multiplyByTen, divideByThree] // Array of functions taking single input
+}, {
+  type: 'filter',
+  funcs:[filterLessThanTen, filterLessThanOFourteen]  // Array of functions taking single input
+}]
+
+// Build a transducer to use & reuse later
+const composedTransducer = composeTransducer(operationList, 'reduce')
+
+// Get the output
+const output = composedTransducer(input, addAllNumbers, 0) // composedTransducer (input, reducerFunction, initialValue)
+
+// Show output
+console.log(output)
+```
+
+## Description
 
 Often, when we process data, it’s useful to break up the processing into multiple independent, composable stages. For example, it’s very common to select some data from a larger set, and then process that data (map / filter). You may be tempted to do something like this:
+
+### Problem
 
 ```
 // Define example 'input'
@@ -59,6 +126,8 @@ Problem with the above is for each `map` or `filter` you execute it returns a br
 
 All these arrays will eventually need to be [garbage collected](https://javascript.info/garbage-collection) which if the array is very big (and you're creating new objects with each operation) this will cause unnecessary memory usage and blocking (if you are doing this on the frontend).
 
+### Solution
+
 This package fixes this by composing the `map` and `filter` functions like so:
 
 `.map(addTwo).map(multiplyByTen).map(divideByThree)` into `const applyMaps = (x) => divideByThree(multiplyByTen(addTwo(x)))`
@@ -77,85 +146,6 @@ const output  = input.map(applyMaps).filter(applyFilters)
 Now we are only creating **2** _transient_ arrays instead of **5** which is an improvement but we can do more and this is where transducers come in. Istead of creating two _transient_ arrays each element will pass through `applyMaps` and `applyFilters` before being placed into the output array.
 
 This in effect means we take an input, perform ALL operations on it and place the results into a **new array** This means we only create one array after this operation, which is the output array. This results in less GC and faster performance especially on the browser.
-
-## Usage
-
-We support map, filter and reduce. Example are below:
-
-### map/filter
-
-The example using map & filter at the same time:
-
-```
-// Import package
-import { composeTransducer } from 'compose-transducers'
-
-// Define my operations
-const addTwo = number => number + 2
-const multiplyByTen = number => number * 10
-const divideByThree = number => number / 3
-const filterLessThanTen = number => number > 10
-const filterLessThanOFourteen = number => number > 14
-
-// Define example 'input'
-const input = [1,2,3,4,5]
-
-// Build operation list
-const operationList = [{
-  type:'map',
-  funcs: [addTwo, multiplyByTen, divideByThree]
-}, {
-  type: 'filter',
-  funcs:[filterLessThanTen, filterLessThanOFourteen]
-}]
-
-// Build a transducer to use & reuse later
-const composedTransducer = composeTransducer(operationList)
-
-// Get the output
-const output = composedTransducer(input)
-
-// Show output
-console.log(output)
-```
-
-### reduce
-
-The above example but with a reduce to add all the numbers in the array
-
-```
-// Import package
-import { composeTransducer } from 'compose-transducers'
-
-// Define my operations
-const addTwo = number => number + 2
-const multiplyByTen = number => number * 10
-const divideByThree = number => number / 3
-const filterLessThanTen = number => number > 10
-const filterLessThanOFourteen = number => number > 14
-const addAllNumbers = (total, number) => total + number
-
-// Define example 'input'
-const input = [1,2,3,4,5]
-
-// Build operation list
-const operationList = [{
-  type:'map',
-  funcs: [addTwo, multiplyByTen, divideByThree]
-}, {
-  type: 'filter',
-  funcs:[filterLessThanTen, filterLessThanOFourteen]
-}]
-
-// Build a transducer to use & reuse later
-const composedTransducer = composeTransducer(operationList, 'reduce')
-
-// Get the output
-const output = composedTransducer(input, addAllNumbers, 0) // composedTransducer (input, reducerFunction, initialValue)
-
-// Show output
-console.log(output)
-```
 
 ## Contributing
 
