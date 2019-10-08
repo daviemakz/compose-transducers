@@ -11,27 +11,34 @@ import { functionComposer } from './compose';
 import { expectedProps, allowedMethods } from './constants';
 
 // Import types
-import { IConvertTransducerMethod, TTransducerTypes, IIteratorListObject } from './types';
+import { ConvertTransducerMethod, OperationInstance, AllowedOperationsTypes } from './types';
 
 // FUNCTION: Validate iterator list
-const validateIteratorList = (operationList: IIteratorListObject[]) =>
+const validateIteratorList = (expProps: Array<string>) => (operationList: OperationInstance[]) => {
   operationList.forEach(operation => {
-    if (expectedProps.some(prop => !operation.hasOwnProperty(prop))) {
-      throw new Error("Each operation must have the shape {type: 'map' | 'filter', funcs: Functions[]}");
+    if (expProps.some(prop => !Object.prototype.hasOwnProperty.call(operation, prop))) {
+      throw new Error('Each operation must have the shape {type: \'map\' | \'filter\', funcs: Functions[]}');
     }
   });
+  return void 0;
+};
 
-// FUNCTION: Map array functions to transducer-js
-const convertTransducerMethod: IConvertTransducerMethod = (type, funcs) => {
+// FUNCTION: Validate each operations has an allowed type
+const validateOperation = (permittedMethods: Array<string>) => (type: AllowedOperationsTypes) => {
   // Check that the allowed methods exist
-  if (!allowedMethods.includes(type)) {
+  if (!permittedMethods.includes(type)) {
     throw new Error('ConstructError: Unable to build transducer, supported functions are map or filter');
   }
-  // Compose the list of methods for the given operation
-  const composedFunctions: TTransducerTypes<any> = functionComposer(typeof funcs === 'function' ? [funcs] : funcs);
+  return void 0;
+};
+
+// FUNCTION: Map array functions to transducer-js
+const convertTransducerMethod: ConvertTransducerMethod = (type, funcs) => {
+  // Validate the operation beforehand
+  validateOperation(allowedMethods)(type);
   // Declare method mapping object
   const methodMapping = {
-    map: () => map<any, any>(composedFunctions),
+    map: () => map<any, any>(functionComposer(typeof funcs === 'function' ? [funcs] : funcs)),
     filter: () => filter(funcs[0])
   };
   // Return the mapped operation
@@ -39,26 +46,25 @@ const convertTransducerMethod: IConvertTransducerMethod = (type, funcs) => {
 };
 
 // FUNCTION: Build transducer
-export const composeTransducer = (operationList: IIteratorListObject[], mode = 'standard') => {
+export const composeTransducer = (operationList: OperationInstance[], mode = 'standard') => {
   // Validate operation list
-  validateIteratorList(operationList);
+  validateIteratorList(expectedProps)(operationList);
   // Build transformer
   const xf = comp(
     ...operationList
-      .reduce((acc: any[], op) => {
-        if (op.type === 'map') {
-          acc.push(op);
-        } else {
-          op.funcs.forEach(func => {
-            acc.push({
-              type: 'filter',
-              funcs: [func]
-            });
-          });
-        }
-        return acc;
-      }, [])
-      .map(({ type, funcs }: IIteratorListObject) => convertTransducerMethod(type, funcs))
+      .reduce(
+        (acc: any[], op): OperationInstance[] =>
+          op.type === 'map'
+            ? acc.concat(op)
+            : acc.concat(
+                ...op.funcs.map(func => ({
+                  type: 'filter',
+                  funcs: [func]
+                }))
+              ),
+        []
+      )
+      .map(({ type, funcs }) => convertTransducerMethod(type, funcs))
   );
   // What type of transducer to return
   return mode === 'reduce'

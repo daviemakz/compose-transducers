@@ -1,2 +1,2 @@
-import { IFunctionComposer } from './types';
-export declare const functionComposer: IFunctionComposer;
+import { FunctionComposer } from './types';
+export declare const functionComposer: FunctionComposer;

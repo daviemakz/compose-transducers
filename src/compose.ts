@@ -1,8 +1,8 @@
 'use strict';
 
 // Import types
-import { IFunctionComposer } from './types';
+import { FunctionComposer } from './types';
 
-// Export the function composer
-export const functionComposer: IFunctionComposer = fns =>
+// FUNCTION: Export the function composer
+export const functionComposer: FunctionComposer = fns =>
   fns.reverse().reduce((g, f) => (...args: Array<any>) => g(f(...args)));

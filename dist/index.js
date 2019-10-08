@@ -21,25 +21,34 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var validateIteratorList = function validateIteratorList(operationList) {
-  return operationList.forEach(function (operation) {
-    if (_constants.expectedProps.some(function (prop) {
-      return !operation.hasOwnProperty(prop);
-    })) {
-      throw new Error("Each operation must have the shape {type: 'map' | 'filter', funcs: Functions[]}");
+var validateIteratorList = function validateIteratorList(expProps) {
+  return function (operationList) {
+    operationList.forEach(function (operation) {
+      if (expProps.some(function (prop) {
+        return !Object.prototype.hasOwnProperty.call(operation, prop);
+      })) {
+        throw new Error("Each operation must have the shape {type: 'map' | 'filter', funcs: Functions[]}");
+      }
+    });
+    return void 0;
+  };
+};
+
+var validateOperation = function validateOperation(permittedMethods) {
+  return function (type) {
+    if (!permittedMethods.includes(type)) {
+      throw new Error('ConstructError: Unable to build transducer, supported functions are map or filter');
     }
-  });
+
+    return void 0;
+  };
 };
 
 var convertTransducerMethod = function convertTransducerMethod(type, funcs) {
-  if (!_constants.allowedMethods.includes(type)) {
-    throw new Error('ConstructError: Unable to build transducer, supported functions are map or filter');
-  }
-
-  var composedFunctions = (0, _compose.functionComposer)(typeof funcs === 'function' ? [funcs] : funcs);
+  validateOperation(_constants.allowedMethods)(type);
   var methodMapping = {
     map: function map() {
-      return (0, _transducersJs.map)(composedFunctions);
+      return (0, _transducersJs.map)((0, _compose.functionComposer)(typeof funcs === 'function' ? [funcs] : funcs));
     },
     filter: function filter() {
       return (0, _transducersJs.filter)(funcs[0]);
@@ -50,21 +59,15 @@ var convertTransducerMethod = function convertTransducerMethod(type, funcs) {
 
 var composeTransducer = function composeTransducer(operationList) {
   var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'standard';
-  validateIteratorList(operationList);
+  validateIteratorList(_constants.expectedProps)(operationList);
 
   var xf = _transducersJs.comp.apply(void 0, _toConsumableArray(operationList.reduce(function (acc, op) {
-    if (op.type === 'map') {
-      acc.push(op);
-    } else {
-      op.funcs.forEach(function (func) {
-        acc.push({
-          type: 'filter',
-          funcs: [func]
-        });
-      });
-    }
-
-    return acc;
+    return op.type === 'map' ? acc.concat(op) : acc.concat.apply(acc, _toConsumableArray(op.funcs.map(function (func) {
+      return {
+        type: 'filter',
+        funcs: [func]
+      };
+    })));
   }, []).map(function (_ref) {
     var type = _ref.type,
         funcs = _ref.funcs;

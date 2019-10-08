@@ -1,18 +1,19 @@
-export declare type TAllowedOperations = 'map' | 'filter';
-export interface IConvertTransducerMethod {
-    (type: TAllowedOperations, func: Function): any;
+export declare type AllowedOperationsTypes = 'map' | 'filter';
+export interface ConvertTransducerMethod {
+    (type: AllowedOperationsTypes, func: Function): any;
 }
-export interface ITransMap<T> {
+export interface TransMap<T> {
     (arg: T): T;
 }
-export interface ITransFilter<T> {
+export interface TransFilter<T> {
     (arg: T): boolean;
 }
-export declare type TTransducerTypes<T> = ITransMap<T> | ITransFilter<T>;
-export interface IIteratorListObject {
-    type: TAllowedOperations;
-    funcs: Array<any> & TTransducerTypes<any>;
+export declare type TransducerTypes<T> = TransMap<T> | TransFilter<T>;
+export interface OperationInstance {
+    type: AllowedOperationsTypes;
+    funcs: Array<any> & TransducerTypes<any>;
 }
-export interface IFunctionComposer {
-    (fns: any[]): TTransducerTypes<any>;
+export declare type OperationInstanceKeys = keyof OperationInstance;
+export interface FunctionComposer {
+    (fns: any[]): TransducerTypes<any>;
 }

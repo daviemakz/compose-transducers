@@ -11,8 +11,6 @@
 
 This package combines functional composition and transducers to allow high performance operations from arrays (or other iterables) with minimal garbage collection. Under the hood we utilise [transducer.js](https://github.com/cognitect-labs/transducers-js) and function composition to allow you to build highly efficient data pipelines.
 
-This results in much faster performance than traditional methods without having to implement this yourself.
-
 ## Installation
 
 To install simply run:
@@ -29,12 +27,20 @@ NPM:
 npm install compose-transducers --save
 ```
 
-
 ## Usage
 
-We support map, filter and reduce. Example are below:
+We support map, filter and reduce. After creating your operations list `composeTransducer` will return a function which you can resuse as much as you want. Example are below:
 
 ### map/filter
+
+Below is the function signature in typescript:
+
+```
+composeTransducer([{
+  type: 'map' | filter;
+  funcs: Function[];
+}], mode = 'standard') => (source: any[], initialValue = []) => Array<any>
+```
 
 The example using map & filter at the same time:
 
@@ -58,15 +64,24 @@ const operationList = [{
 const composedTransducer = composeTransducer(operationList)
 
 // Get the output
-const output = composedTransducer(input)
+const output = composedTransducer(input) // composedTransducer(source, initialValue)
 
 // Show output
 console.log(output)
 ```
 
-**NOTE: You can have the map functions taking more than one parameter as long as your functions return the same number of parameters** 
+**NOTE: You can have the map functions taking more than one parameter as long as your functions return the same number of parameters**
 
 ### reduce
+
+Below is the function signature in typescript:
+
+```
+composeTransducer([{
+  type: 'map' | filter;
+  funcs: Function[];
+}], mode = 'reduce') => (source: any[], reducer: Reducer<any, any>, initialValue: any) => any
+```
 
 The above example but with a reduce to add all the numbers in the array:
 
@@ -126,9 +141,9 @@ const output  = input.map(addTwo)
 console.log(output)
 ```
 
-Problem with the above is for each `map` or `filter` you execute it returns a brand new array each time meaning we have just created **5** arrays in the code above.
+The problem with the above is for each `map` or `filter` you execute it returns a brand new array each time meaning we have just created **five** arrays in the code above.
 
-All these arrays will eventually need to be [garbage collected](https://javascript.info/garbage-collection) which if the array is very big (and you're creating new objects with each operation) this will cause unnecessary memory usage and blocking (if you are doing this on the frontend).
+All these arrays will eventually need to be [garbage collected](https://javascript.info/garbage-collection) which if the array is very big (and you're creating new objects with each operation) this will cause unnecessary memory usage and potential blocking (if you are doing this on the frontend).
 
 ### Solution
 
@@ -136,9 +151,9 @@ This package fixes this by composing the `map` and `filter` functions like so:
 
 `.map(addTwo).map(multiplyByTen).map(divideByThree)` into `const applyMaps = (x) => divideByThree(multiplyByTen(addTwo(x)))`
 
-`.filter(filterLessThanTwo).filter(filterLessThanOne)` into `const applyFilters = ((x) => filterLessThanOFourteen(filterLessThanTen(x))`
+`.filter(filterLessThanTwo).filter(filterLessThanOne)` into `const applyFilters = (x) => [filterLessThanTen, filterLessThanOFourteen].every(fn => fn(x))`
 
-_NOTE: Filter has to be done slightly differently than shown above but the effect is the same!_
+_NOTE: Filter has to be done at the transducer level so ordering of the functions is important!_
 
 This will turn the above into:
 
@@ -147,9 +162,9 @@ This will turn the above into:
 const output  = input.map(applyMaps).filter(applyFilters)
 ```
 
-Now we are only creating **2** _transient_ arrays instead of **5** which is an improvement but we can do more and this is where transducers come in. Instead of creating two _transient_ arrays each element will pass through `applyMaps` and `applyFilters` before being placed into the output array.
+Now we are only creating **two** _transient_ arrays instead of **fixe** which is an improvement but we can do more and this is where transducers come in. Instead of creating two _transient_ arrays each element will pass through `applyMaps` and `applyFilters` before being placed into the output array.
 
-This in effect means we take an input, perform ALL operations on it and place the results into a **new array** This means we only create one array after this operation, which is the output array. This results in less GC and faster performance especially on the browser.
+This in effect means we take an input, perform ALL operations on it and place the results into a **new array**. This means we only create one array after this operation, which is the output array. This results in less GC and faster performance especially on the browser.
 
 ## Contributing
 

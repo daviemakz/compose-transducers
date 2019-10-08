@@ -1,2 +1,3 @@
-export declare const expectedProps: string[];
-export declare const allowedMethods: string[];
+import { AllowedOperationsTypes, OperationInstanceKeys } from './types';
+export declare const expectedProps: OperationInstanceKeys[];
+export declare const allowedMethods: AllowedOperationsTypes[];
