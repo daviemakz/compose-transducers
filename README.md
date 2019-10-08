@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/daviemakz/compose-transducers.svg?branch=master)](https://travis-ci.org/daviemakz/compose-transducers)
 [![Downloads](https://img.shields.io/npm/dm/compose-transducers.svg)](https://www.npmjs.com/package/compose-transducers)
 [![dependencies Status](https://david-dm.org/daviemakz/compose-transducers/status.svg)](https://david-dm.org/daviemakz/compose-transducers)
-[![devDependencies Status](https://david-dm.org/daviemakz/compose-transducers/dev-status.svg)](https://david-dm.org/daviemakz/compose-transducers?type=dev)
+[![devDependencies Status](https://david-dm.org/daviemakz/compose-transducers/dev-status.svg)](https://david-dm.org/daviemakz/compose-transducers?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/daviemakz/compose-transducers.svg)](https://greenkeeper.io/)
 
 This package combines functional composition and transducers to allow high performance operations from arrays (or other iterables) with minimal garbage collection. Under the hood we utilise [transducer.js](https://github.com/cognitect-labs/transducers-js) and function composition to allow you to build highly efficient data pipelines.
 
