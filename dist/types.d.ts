@@ -1,6 +1,10 @@
 export declare type AllowedOperationsTypes = 'map' | 'filter';
+export declare type AllowedTransducerModes = 'standard' | 'reduce';
 export interface ConvertTransducerMethod {
     (type: AllowedOperationsTypes, func: Function): any;
+}
+export interface ComposeTransducer {
+    (operationList: OperationInstance[], mode: AllowedTransducerModes): any;
 }
 export interface TransMap<T> {
     (arg: T): T;

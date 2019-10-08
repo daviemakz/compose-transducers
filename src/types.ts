@@ -1,9 +1,15 @@
 // Allowed transducer methods
 export type AllowedOperationsTypes = 'map' | 'filter';
+export type AllowedTransducerModes = 'standard' | 'reduce';
 
 // convertTransducerMethod()
 export interface ConvertTransducerMethod {
   (type: AllowedOperationsTypes, func: Function);
+}
+
+// composeTransducer()
+export interface ComposeTransducer {
+  (operationList: OperationInstance[], mode: AllowedTransducerModes): any;
 }
 
 // Transducer functions

@@ -11,13 +11,13 @@ import { functionComposer } from './compose';
 import { expectedProps, allowedMethods } from './constants';
 
 // Import types
-import { ConvertTransducerMethod, OperationInstance, AllowedOperationsTypes } from './types';
+import { ConvertTransducerMethod, OperationInstance, AllowedOperationsTypes, ComposeTransducer } from './types';
 
 // FUNCTION: Validate iterator list
 const validateIteratorList = (expProps: Array<string>) => (operationList: OperationInstance[]) => {
   operationList.forEach(operation => {
     if (expProps.some(prop => !Object.prototype.hasOwnProperty.call(operation, prop))) {
-      throw new Error('Each operation must have the shape {type: \'map\' | \'filter\', funcs: Functions[]}');
+      throw new Error("Each operation must have the shape {type: 'map' | 'filter', funcs: Functions[]}");
     }
   });
   return void 0;
@@ -46,7 +46,7 @@ const convertTransducerMethod: ConvertTransducerMethod = (type, funcs) => {
 };
 
 // FUNCTION: Build transducer
-export const composeTransducer = (operationList: OperationInstance[], mode = 'standard') => {
+export const composeTransducer: ComposeTransducer = (operationList, mode = 'standard') => {
   // Validate operation list
   validateIteratorList(expectedProps)(operationList);
   // Build transformer
@@ -69,5 +69,5 @@ export const composeTransducer = (operationList: OperationInstance[], mode = 'st
   // What type of transducer to return
   return mode === 'reduce'
     ? (src: Array<any>, func: Reducer<any, any>, init: any) => src.reduce(toFn(xf, func), init)
-    : (source: Array<any>, init = []) => into(init, xf, source);
+    : (source: Array<any>, init: any = []) => into(init, xf, source);
 };
