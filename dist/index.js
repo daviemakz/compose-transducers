@@ -27,7 +27,7 @@ var validateIteratorList = function validateIteratorList(expProps) {
       if (expProps.some(function (prop) {
         return !Object.prototype.hasOwnProperty.call(operation, prop);
       })) {
-        throw new Error("Each operation must have the shape {type: 'map' | 'filter', funcs: Functions[]}");
+        throw new Error('Each operation must have the shape {type: \'map\' | \'filter\', funcs: Functions[]}');
       }
     });
     return void 0;
