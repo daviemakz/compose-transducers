@@ -70,7 +70,7 @@ const output = composedTransducer(input) // composedTransducer(source, initialVa
 console.log(output)
 ```
 
-**NOTE: You can have the map functions taking more than one parameter as long as your functions return the same number of parameters**
+**NOTE: You can have the map functions taking more than one parameter as long as your functions return the same number of parameters.**
 
 ### reduce
 
