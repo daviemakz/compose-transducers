@@ -37,7 +37,7 @@ Below is the function signature in typescript:
 
 ```
 composeTransducer([{
-  type: 'map' | filter;
+  type: 'map' | 'filter' ;
   funcs: Function[];
 }], mode = 'standard') => (source: any[], initialValue = []) => Array<any>
 ```
@@ -78,7 +78,7 @@ Below is the function signature in typescript:
 
 ```
 composeTransducer([{
-  type: 'map' | filter;
+  type: 'map' | 'filter';
   funcs: Function[];
 }], mode = 'reduce') => (source: any[], reducer: Reducer<any, any>, initialValue: any) => any
 ```
@@ -162,7 +162,7 @@ This will turn the above into:
 const output  = input.map(applyMaps).filter(applyFilters)
 ```
 
-Now we are only creating **two** _transient_ arrays instead of **fixe** which is an improvement but we can do more and this is where transducers come in. Instead of creating two _transient_ arrays each element will pass through `applyMaps` and `applyFilters` before being placed into the output array.
+Now we are only creating **two** _transient_ arrays instead of **five** which is an improvement but we can do more and this is where transducers come in. Instead of creating two _transient_ arrays each element will pass through `applyMaps` and `applyFilters` before being placed into the output array.
 
 This in effect means we take an input, perform ALL operations on it and place the results into a **new array**. This means we only create one array after this operation, which is the output array. This results in less GC and faster performance especially on the browser.
 
