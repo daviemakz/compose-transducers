@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.composeTransducer = void 0;
 
-require("@babel/polyfill");
-
 var _transducersJs = require("transducers-js");
 
 var _compose = require("./compose");

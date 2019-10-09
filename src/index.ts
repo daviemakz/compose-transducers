@@ -1,8 +1,5 @@
 'use strict';
 
-// Polyfill to ensure compatibility
-import '@babel/polyfill';
-
 // Import NPM modules
 import { comp, filter, into, map, toFn, Reducer } from 'transducers-js';
 
