@@ -6,9 +6,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "(yarn clean) && (yarn build:babel) && (yarn build:types)",
-    "git:add": "git add -A",
-    "git:commit": "git commit -a -m \"commit changes\"",
-    "git:push": "git push",
+    "git:add": "suppress-exit-code git add -A",
+    "git:commit": "suppress-exit-code git commit -a -m \"commit changes\"",
+    "git:push": "suppress-exit-code git push",
     "git:publish": "(yarn git:commit) && (yarn git:commit) && (yarn git:push)",
     "build:babel": "babel src -d dist --extensions \".js,.ts\"",
     "build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
