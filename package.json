@@ -1,66 +1,70 @@
 {
-	"name": "compose-transducers",
-	"version": "1.0.8",
-	"description": "This package combines functional composition and transducers to allow high performance operations from arrays and minimal garbage collection.",
-	"main": "dist/index.js",
-	"scripts": {
-		"clean": "rimraf dist",
-		"build": "(yarn clean) && (yarn build:babel) && (yarn build:types)",
-		"build:babel": "babel src -d dist --extensions \".js,.ts\"",
-		"build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
-		"build:watch": "babel src -d dist --extensions \".js,.ts\" --watch",
-		"lint:fix": "eslint src/compose.ts src/constants.ts src/index.ts --fix",
-		"prepublishOnly": "yarn build",
-		"test": "jest"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.2.3",
-		"@babel/core": "^7.3.3",
-		"@babel/plugin-syntax-throw-expressions": "^7.2.0",
-		"@babel/plugin-transform-modules-commonjs": "^7.2.0",
-		"@babel/plugin-transform-regenerator": "^7.0.0",
-		"@babel/plugin-transform-runtime": "^7.3.4",
-		"@babel/polyfill": "^7.2.5",
-		"@babel/preset-env": "^7.3.1",
-		"@babel/preset-typescript": "^7.6.0",
-		"@babel/register": "^7.0.0",
-		"@types/node": "^12.7.11",
-		"@types/transducers-js": "^0.4.4",
-		"babel-eslint": "^10.0.1",
-		"babel-jest": "^24.1.0",
-		"eslint": "^6.5.1",
-		"jest": "^24.1.0",
-		"prettier": "^1.13.7",
-		"prettier-eslint": "^9.0.0",
-		"prettier-eslint-cli": "^5.0.0",
-		"rimraf": "^3.0.0",
-		"typescript": "^3.6.3"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/daviemakz/compose-transducers.git"
-	},
-	"keywords": [
-		"functional",
-		"programming",
-		"function",
-		"composition",
-		"transducers",
-		"data",
-		"efficient",
-		"fast",
-		"garbage",
-		"collection",
-		"map",
-		"filter"
-	],
-	"author": "David Makuni",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/daviemakz/compose-transducers/issues"
-	},
-	"homepage": "https://github.com/daviemakz/compose-transducers#readme",
-	"dependencies": {
-		"transducers-js": "^0.4.174"
-	}
+  "name": "compose-transducers",
+  "version": "1.0.8",
+  "description": "This package combines functional composition and transducers to allow high performance operations from arrays and minimal garbage collection.",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "(yarn clean) && (yarn build:babel) && (yarn build:types)",
+    "git:add": "git add -A",
+    "git:commit": "git commit -a -m \"commit changes\"",
+    "git:push": "git push",
+    "git:publish": "(yarn git:commit) && (yarn git:commit) && (yarn git:push)",
+    "build:babel": "babel src -d dist --extensions \".js,.ts\"",
+    "build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist",
+    "build:watch": "babel src -d dist --extensions \".js,.ts\" --watch",
+    "lint:fix": "eslint src/compose.ts src/constants.ts src/index.ts --fix",
+    "prepublishOnly": "(yarn build) && (yarn git:publish)",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-syntax-throw-expressions": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/plugin-transform-regenerator": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-typescript": "^7.6.0",
+    "@babel/register": "^7.0.0",
+    "@types/node": "^12.7.11",
+    "@types/transducers-js": "^0.4.4",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
+    "eslint": "^6.5.1",
+    "jest": "^24.1.0",
+    "prettier": "^1.13.7",
+    "prettier-eslint": "^9.0.0",
+    "prettier-eslint-cli": "^5.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daviemakz/compose-transducers.git"
+  },
+  "keywords": [
+    "functional",
+    "programming",
+    "function",
+    "composition",
+    "transducers",
+    "data",
+    "efficient",
+    "fast",
+    "garbage",
+    "collection",
+    "map",
+    "filter"
+  ],
+  "author": "David Makuni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daviemakz/compose-transducers/issues"
+  },
+  "homepage": "https://github.com/daviemakz/compose-transducers#readme",
+  "dependencies": {
+    "transducers-js": "^0.4.174"
+  }
 }
