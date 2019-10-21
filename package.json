@@ -38,6 +38,7 @@
     "prettier-eslint": "^9.0.0",
     "prettier-eslint-cli": "^5.0.0",
     "rimraf": "^3.0.0",
+    "suppress-exit-code": "^0.1.0",
     "typescript": "^3.6.3"
   },
   "repository": {
