@@ -29,7 +29,7 @@ npm install compose-transducers --save
 
 ## Usage
 
-We support map, filter and reduce. After creating your operations list `composeTransducer` will return a function which you can resuse as much as you want. Example are below:
+This package support map, filter and reduce. After creating your operations list `composeTransducer` will return a function which you can reuse as much as you want. Example are below:
 
 ### map/filter
 
