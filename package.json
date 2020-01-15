@@ -27,7 +27,7 @@
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.2",
     "@babel/preset-typescript": "^7.7.7",
-    "@babel/register": "^7.0.0",
+    "@babel/register": "^7.8.3",
     "@types/node": "^13.1.0",
     "@types/transducers-js": "^0.4.4",
     "babel-eslint": "^10.0.1",
