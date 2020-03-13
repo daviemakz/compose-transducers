@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-typescript": "^7.6.0",
     "@babel/register": "^7.0.0",
-    "@types/node": "^13.1.0",
+    "@types/node": "13.9.0",
     "@types/transducers-js": "^0.4.4",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
